@@ -233,11 +233,11 @@ def detect(opt, area_start=None, area_end=None):
     print('Done. (%.3fs)' % (time.time() - t0))
 
 
-def safety_zone_and_line(input_video: str, output_video: str, zone_pts=None, line=None) -> None:
+def process_video(input_video: str, output_video: str) -> None:
     deepsort_config = \
         {
-            'yolo_weights': '/home/fishman/CV_demo/object_tracking/detector_based/Yolov5_DeepSort_Pytorch/yolov5/weights/yolov5s.pt',
-            'deep_sort_weights': '/home/fishman/CV_demo/object_tracking/detector_based/Yolov5_DeepSort_Pytorch/deep_sort_pytorch/deep_sort/deep/checkpoint/ckpt.t7',
+            'yolo_weights': 'Yolov5_DeepSort_Pytorch/yolov5/weights/yolov5s.pt',
+            'deep_sort_weights': '/Yolov5_DeepSort_Pytorch/deep_sort_pytorch/deep_sort/deep/checkpoint/ckpt.t7',
             # 'output': run_config['out_path'],
             'show_vid': False,
             'save_vid': True,
@@ -251,7 +251,7 @@ def safety_zone_and_line(input_video: str, output_video: str, zone_pts=None, lin
             'iou_thres': 0.5,
             'classes': 0,
             'agnostic_nms': False,
-            'config_deepsort': '/home/fishman/CV_demo/object_tracking/detector_based/Yolov5_DeepSort_Pytorch/deep_sort_pytorch/configs/deep_sort.yaml'
+            'config_deepsort': '/Yolov5_DeepSort_Pytorch/deep_sort_pytorch/configs/deep_sort.yaml'
         }
     deepsort_config['source'] = input_video
     deepsort_config['output'] = output_video
@@ -259,6 +259,4 @@ def safety_zone_and_line(input_video: str, output_video: str, zone_pts=None, lin
     with torch.no_grad():
         detect(deepsort_config, area_start=[123, 123, 132, 123], area_end=[123, 123, 123, 123, 123])
 
-
-safety_zone_and_line('input_video.mp4', 'output_video.mp4', zone_pts=[[80, 120], [120, 80], [120, 160], [80, 160]],
-                     line=[[180, 180], [220, 220]])
+process_video('input.mp4', 'output.mp4')
